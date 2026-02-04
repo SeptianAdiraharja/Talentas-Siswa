@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Criterion extends Model
+{
+    protected $table = 'criterias';
+    
+    protected $fillable = ['name', 'type', 'weight'];
+}
