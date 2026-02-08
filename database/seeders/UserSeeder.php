@@ -15,15 +15,23 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $admin = Role::where('name','admin')->first();
+        $kepalaSekolah = Role::where('name', 'Kepala Sekolah')->first();
+        $tu = Role::where('name','tu')->first();
         $guru  = Role::where('name','guru')->first();
         $siswa = Role::where('name','siswa')->first();
 
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
+            'name' => 'Kepala Sekolah',
+            'email' => 'kepalaSekolah@test.com',
             'password' => Hash::make('password'),
-            'role_id' => $admin->id
+            'role_id' => $kepalaSekolah->id
+        ]);
+
+        User::create([
+            'name' => 'Tu',
+            'email' => 'tu@test.com',
+            'password' => Hash::make('password'),
+            'role_id' => $tu->id
         ]);
 
         User::create([

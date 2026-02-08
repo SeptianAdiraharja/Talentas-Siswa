@@ -31,9 +31,14 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Urutan Talenta Siswa</h6>
-            <button class="btn btn-sm btn-info shadow-sm" onclick="window.print()">
-                <i class="fas fa-print fa-sm text-white-50"></i> Cetak Laporan
-            </button>
+            <div class="btn-group">
+                <a href="{{ route('ranking.pdf', $period->id) }}" class="btn btn-sm btn-danger shadow-sm">
+                    <i class="fas fa-file-pdf fa-sm text-white-50"></i> Cetak PDF
+                </a>
+                <a href="{{ route('ranking.excel', $period->id) }}" class="btn btn-sm btn-success shadow-sm ml-2">
+                    <i class="fas fa-file-excel fa-sm text-white-50"></i> Export Excel
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

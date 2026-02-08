@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 
+
+use App\Http\Controllers\kepalaSekolah\KepalaSekolahDashboardController;
+use App\Http\Controllers\kepalaSekolah\KepalaSekolahRankingController;
+
 // adminController
 use App\Http\Controllers\Admin\DashboardController; // Import Dashboard Admin
 use App\Http\Controllers\Admin\CriterionController;
@@ -33,8 +37,23 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // ================= ADMIN =================
-    Route::middleware('role:admin')->prefix('admin')->group(function () {
+   Route::middleware(['auth', 'role:kepala sekolah'])
+    ->prefix('kepala-sekolah')
+    ->name('kepalasekolah.')
+    ->group(function () {
+        Route::get('/dashboard', [KepalaSekolahDashboardController::class, 'index'])
+            ->name('dashboard');
+
+        Route::get('/ranking', [KepalaSekolahRankingController::class, 'index'])->name('ranking');
+        Route::get('/ranking/print/{period_id}', [KepalaSekolahRankingController::class, 'printPdf'])->name('print');
+
+        Route::get('/panduan', function() {
+            return view('kepalasekolah.panduan');
+        })->name('panduan');
+    });
+
+    // ================= tu =================
+    Route::middleware('role:tu')->prefix('tu')->group(function () {
         // Kriteria
         Route::resource('criteria', CriterionController::class);
         // User
@@ -47,6 +66,12 @@ Route::middleware(['auth'])->group(function () {
 
         // Rankings
         Route::get('/ranking', [RankingController::class, 'index'])->name('ranking');
+        Route::get('/ranking/export-pdf/{period_id}', [RankingController::class, 'exportPdf'])->name('ranking.pdf');
+        Route::get('/ranking/export-excel/{period_id}', [RankingController::class, 'exportExcel'])->name('ranking.excel');
+
+        Route::get('/panduan', function() {
+            return view('admin.panduan');
+        })->name('admin.panduan');
     });
 
     // ================= GURU =================
@@ -64,6 +89,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/ranking', [GuruRankingController::class, 'index'])
             ->name('ranking');
+
+        Route::get('/panduan', function() {
+            return view('guru.panduan');
+        })->name('panduan');
     });
 
     // ================= SISWA =================
