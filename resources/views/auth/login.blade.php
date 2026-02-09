@@ -46,9 +46,16 @@
 
                                         <div class="form-group mb-3">
                                             <label class="form-label font-weight-bold" for="password">Password</label>
-                                            <input type="password" id="password" name="password"
-                                                class="form-control form-control-lg @error('password') is-invalid @enderror"
-                                                required>
+                                            <div class="input-group">
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                                    required style="border-right: none;">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text bg-white" style="border-left: none; cursor: pointer;" id="togglePassword">
+                                                        <i class="fa fa-eye-slash text-muted" id="eyeIcon"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                             <x-input-error :messages="$errors->get('password')" class="mt-1" />
                                         </div>
 
@@ -77,4 +84,26 @@
             </div>
         </div>
     </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        const eyeIcon = document.querySelector('#eyeIcon');
+
+        togglePassword.addEventListener('click', function () {
+            // Ubah tipe input
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Ubah ikon (menggunakan FontAwesome class)
+            if (type === 'text') {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+    });
+</script>
 </x-guest-layout>
